@@ -40,13 +40,9 @@ jobs:
     needs: upload_configuration
 
     steps:
-      - name: Create Plan Run
-        uses: hashicorp/tfc-workflows-github/actions/create-run@v1.0.0
-        id: plan-run
-        with:
-          workspace: ${{ env.TF_WORKSPACE }}
-          configuration_version: ${{ needs.upload_configuration.outputs.configuration_version_id }}
-          plan_only: true
+      - name: Prints Configuration Version ID
+        run: |
+          echo "Configuration Version ID: ${{ needs.upload_configuration.outputs.configuration_version_id }}"
 
   get_plan_output:
     name: "Get Plan Output"
