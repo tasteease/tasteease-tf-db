@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: Prints Configuration Version ID
         run: |
-          echo "Configuration Version ID: ${{ needs.upload_configuration.outputs.configuration_version_id }}"
+          echo "Configuration Version ID: ${{ needs.plan-upload.outputs.configuration-version-id }}"
 
   get_plan_output:
     name: "Get Plan Output"
