@@ -33,6 +33,9 @@ jobs:
           directory: ${{ env.CONFIG_DIRECTORY }}
           speculative: true
 
+    outputs:
+      configuration_version_id: ${{ steps.plan-upload.outputs.configuration_version_id }}
+
   create_plan_run:
     name: "Create Plan Run"
     runs-on: ubuntu-latest
@@ -42,7 +45,19 @@ jobs:
     steps:
       - name: Prints Configuration Version ID
         run: |
-          echo "Configuration Version ID: ${{ needs.plan-upload.outputs.configuration-version-id }}"
+          echo "Configuration Version ID: ${{ needs.upload_configuration.outputs.configuration_version_id }}"
+
+      - name: Create Plan Run
+        uses: hashicorp/tfc-workflows-github/actions/create-run@v1.0.0
+        id: plan-run
+        with:
+          workspace: ${{ env.TF_WORKSPACE }}
+          configuration_version: ${{ needs.upload_configuration.outputs.configuration_version_id }}
+          plan_only: true
+
+    outputs:
+      payload: ${{ steps.plan-run.outputs.payload }}
+      run_link: ${{ steps.plan-run.outputs.run_link }}
 
   get_plan_output:
     name: "Get Plan Output"
@@ -56,6 +71,11 @@ jobs:
         id: plan-output
         with:
           plan: ${{ fromJSON(needs.create_plan_run.outputs.payload).data.relationships.plan.data.id }}
+
+    outputs:
+      add: ${{ steps.plan-output.outputs.add }}
+      change: ${{ steps.plan-output.outputs.change }}
+      destroy: ${{ steps.plan-output.outputs.destroy }}
 
   update_pr:
     name: "Update PR"
