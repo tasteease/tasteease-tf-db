@@ -1,5 +1,14 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
+terraform {
+  cloud {
+    organization = "tasteease"
+
+    workspaces {
+      name = "tasteease-tf"
+    }
+  }
+}
 
 provider "aws" {
   region = var.region
