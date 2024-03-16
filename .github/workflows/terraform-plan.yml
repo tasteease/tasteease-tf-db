@@ -32,6 +32,9 @@ jobs:
           workspace: ${{ env.TF_WORKSPACE }}
           directory: ${{ env.CONFIG_DIRECTORY }}
           speculative: true
+      - name: Print output
+        run: |
+          echo "Configuration Version: ${{ steps.plan-upload.outputs.configuration_version_id }}"
 
   create_plan_run:
     name: "Create Plan Run"
