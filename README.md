@@ -1,6 +1,6 @@
 # Tasteease - Manage AWS RDS With Terraform
 
-Projeto de IaC para implementação de banco de dados PostgreSQL para AWA RDS.
+Projeto de IaC para implementação de banco de dados PostgreSQL para AWS RDS.
 
 ```bash
   terraform init
